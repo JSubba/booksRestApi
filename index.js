@@ -1,9 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
-
 const app = express();
-
 require("dotenv").config();
+const booksRoute = require("./routes/books");
+const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+//routes
+app.use("/api/books", booksRoute);
 
 //db connect
 mongoose
@@ -17,8 +23,6 @@ mongoose
     .catch((error) => {
         console.log("Error", error);
     });
-
-const PORT = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
     res.send("REST API");
